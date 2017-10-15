@@ -3,13 +3,35 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Tassos Lambrou",
-  "license": "ISC",
+  "license": "MIT",
   "description": "Reddit clone for Web 2 class",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tlambrou/reddit-clone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tlambrou/reddit-clone/issues"
+  },
+  "homepage": "https://github.com/tlambrou/reddit-clone#readme",
+  "keywords": [
+    "node",
+    "handlebars",
+    "reddit",
+    "clone",
+    "tdd",
+    "jwt",
+    "express",
+    "bodyparser",
+    "mongo"
+  ]
 }
