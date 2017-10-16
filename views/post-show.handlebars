@@ -8,5 +8,9 @@
         <button type="submit">Save</button>
       </div>
     </form>
+    <h5>Comments:</h5>
+    {{#each post.comments}}
+      <p>{{this.content}}</p>
+    {{/each}}
   </div>
 </div>

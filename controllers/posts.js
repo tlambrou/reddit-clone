@@ -36,15 +36,15 @@ module.exports = (app) => {
   // SUBREDDIT
   app.get('/n/:subreddit', function(req, res) {
     Post.find({ subreddit: req.params.subreddit }).exec(function (err, posts) {
-      res.render('posts-index', { posts: posts });
+      res.render('posts-index', { posts: posts })
     })
-  });
+  })
 
   // SHOW
   app.get('/posts/:id', (req, res) => {
     const post_id = req.params.id
     // Look up the post
-    Post.findById(post_id).exec((err, post) => {
+    Post.findById(post_id).populate('comments').exec((err, post) => {
       if (err) {
         // Render the error if it exists
         res.render("Whoops something went wrong: \n" + err)
@@ -54,4 +54,4 @@ module.exports = (app) => {
       }
     })
   })
-};
+}
