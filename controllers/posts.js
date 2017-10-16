@@ -18,7 +18,7 @@ module.exports = (app) => {
         console.log("error:" + err)
       } else {
         // REDIRECT TO THE ROOT
-        res.redirect(`/`)
+        return res.redirect(`/`)
       }
     })
   })
@@ -41,7 +41,7 @@ module.exports = (app) => {
   });
 
   // SHOW
-  app.get('/post/:id', (req, res) => {
+  app.get('/posts/:id', (req, res) => {
     const post_id = req.params.id
     // Look up the post
     Post.findById(post_id).exec((err, post) => {
