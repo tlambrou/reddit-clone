@@ -15,7 +15,7 @@ module.exports = (app) => {
     // SAVE INSTANCE OF POST MODEL TO DB
     post.save((err, post) => {
       if (err) {
-        res.render("error:" + err)
+        console.log("error:" + err)
       } else {
         // REDIRECT TO THE ROOT
         res.redirect(`/`)
@@ -26,15 +26,19 @@ module.exports = (app) => {
   // INDEX
   app.get('/', (req, res) => {
     // Look up all posts
-    Post.find().exec((err, posts) => {
-      if (err) {
-        res.render('Whoops something went wrong: \n' + err)
-      } else {
-        res.render('posts-index', { posts: posts })
-      }
+    Post.find().then((posts) => {
+
+      res.render('posts-index', { posts: posts })
 
     })
   })
+
+  // SUBREDDIT
+  app.get('/n/:subreddit', function(req, res) {
+    Post.find({ subreddit: req.params.subreddit }).exec(function (err, posts) {
+      res.render('posts-index', { posts: posts });
+    })
+  });
 
   // SHOW
   app.get('/post/:id', (req, res) => {
