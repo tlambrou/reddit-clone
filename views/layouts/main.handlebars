@@ -21,8 +21,10 @@
 
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/login">Login</a></li>
-        <li><a href="/sign-up">Sign Up</a></li>
+        {{#unless currentUser}}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/sign-up">Sign Up</a></li>
+        {{/unless}}
       </ul>
 
       <div class="pull-left">

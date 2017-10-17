@@ -1,20 +1,41 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-var UserSchema = new Schema({
-  createdAt: { type: Date },
-  updatedAt: { type: Date },
-  password: { type: String, select: false },
-  username: { type: String, required: true }
-})
+const Schema = mongoose.Schema;
 
-UserSchema.pre('save', function(next){
-  // SET createdAt AND updatedAt
-  var now = new Date()
-  this.updatedAt = now
+const UserSchema = new Schema({
+  username:   { type: String, required: true },
+  password:   { type: String, select: false },
+  createdAt:  { type: Date },
+  updatedAt:  { type: Date }
+});
+
+// Use a regular function here to avoid issues with this!
+UserSchema.pre('save', function(next) {
+  const date = new Date();
+  this.updatedAt = date;
   if ( !this.createdAt ) {
-    this.createdAt = now
+    this.createdAt = date;
   }
-})
 
-module.exports = mongoose.model('User', UserSchema)
+  const user = this;
+  if (!user.isModified('password')) {
+    return next();
+  }
+
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+UserSchema.methods.comparePassword = function(password, done) {
+  bcrypt.compare(password, this.password, (err, isMatch) => {
+    done(err, isMatch);
+  });
+}
+
+const User = mongoose.model('user', UserSchema);
+module.exports = User;
