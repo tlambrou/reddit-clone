@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/user');
 
 module.exports = (app) => {
@@ -59,9 +58,9 @@ module.exports = (app) => {
 
   // Sign up - handle sign up
   app.post('/sign-up', (req, res) => {
-    const username = req.body.postUsername;
-    const password = req.body.postPassword;
-    const postPasswordConfirm = req.body.postPasswordConfirm;
+    const username = req.body.username;
+    const password = req.body.password;
+    const postPasswordConfirm = req.body.confirmation;
     // console.log(">>>>>", username, password, postPasswordConfirm);
     // Check password confirmation
     if (password !== postPasswordConfirm) {
@@ -82,11 +81,11 @@ module.exports = (app) => {
         expiresIn: "60 days"
       });
       // Set a cookie
-      res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
+      res.cookie('nToken', token, { maxAge: 100000, httpOnly: true });
       // Redirect to root
       res.redirect('/');
     }).catch((err) => {
-      console.log("Sign up", err);
+      console.log("Sign up error: " + err);
       res.status(400).send({ err });
     });
   })

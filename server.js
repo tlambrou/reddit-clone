@@ -5,14 +5,18 @@ var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var express = require('express')
 var cookieParser = require('cookie-parser')
+var jwt = require('jsonwebtoken')
+
 var app = express()
+require('dotenv').config()
 
 app.use(cookieParser())
 mongoose.connect('mongodb://localhost/reddit-clone')
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
+
 
 // Auth middleware
 var checkAuth = function (req, res, next) {
