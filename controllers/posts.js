@@ -25,23 +25,26 @@ module.exports = (app) => {
 
   // INDEX
   app.get('/', (req, res) => {
+    const user = req.user
     // Look up all posts
     Post.find().then((posts) => {
 
-      res.render('posts-index', { posts: posts })
+      res.render('posts-index', { posts: posts, user: user})
 
     })
   })
 
   // SUBREDDIT
   app.get('/n/:subreddit', function(req, res) {
+    const user = req.user
     Post.find({ subreddit: req.params.subreddit }).exec(function (err, posts) {
-      res.render('posts-index', { posts: posts })
+      res.render('posts-index', { posts: posts, user: user})
     })
   })
 
   // SHOW
   app.get('/posts/:id', (req, res) => {
+    const user = req.user
     const post_id = req.params.id
     // Look up the post
     Post.findById(post_id).populate('comments').exec((err, post) => {
@@ -50,7 +53,7 @@ module.exports = (app) => {
         res.render("Whoops something went wrong: \n" + err)
       } else {
         // Respond by rendering the template
-        res.render('post-show', { post: post })
+        res.render('post-show', { post: post, user: user})
       }
     })
   })
